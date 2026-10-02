@@ -1,5 +1,9 @@
+# dependencies
 node_modules/
-artifacts/
-dist/
+
+# build output
 SHIFT-game.html
-SHIFT-repository.zip
+dist/
+
+# test output
+artifacts/
