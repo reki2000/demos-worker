@@ -9,7 +9,7 @@ A small isometric factory-growth game that runs in the browser. Walk the floor, 
 ## How to play
 
 - Tap a machine or the floor and your character walks there, avoiding obstacles. You can also drag, or use WASD / arrow keys.
-- Carry goods **Material Yard → Processor → Packing Bench → Delivery**. Standing on a machine's ring collects, loads or picks up automatically.
+- Carry goods **Material Yard → Processor → Packing Bench → Delivery**. Standing on a machine's ring collects, loads or picks up automatically. After unloading at the Processor or Packing Bench you won't pick up output on the same visit, so you can feed in as much as you like; step off and back on to collect.
 - Standing 1.3 seconds on the ring of the Gear Bench, Hiring Desk, Quality Lab or Expansion Gate buys an upgrade. Leave the ring before buying again.
 - Expanding needs both enough deliveries and enough cash. There are 5 chapters × 5 levels each.
 - Keep things running: restock materials, cool overheating machines, clean puddles, recycle scrap, chain deliveries, and fill regular and rush orders.
