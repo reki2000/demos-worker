@@ -1,28 +1,44 @@
-# SHIFT — 工場成長ゲーム
+# SHIFT — Workshop Tycoon
 
-最新版 v4 のソース一式。
+A small isometric factory-growth game that runs in the browser. Walk the floor, carry materials through processing, packing and delivery, and grow a tiny workshop into a global enterprise.
 
-## 遊ぶ
+**Play it:** https://reki2000.github.io/demos-worker/
 
-`SHIFT-game.html` をブラウザで開くだけで遊べます。通信・インストールは不要です。ソース編集時は `index.html` と `engine.js` を同じフォルダに置いて `index.html` を開いてください。
+![SHIFT gameplay](docs/screenshot.png)
 
-設備・床をタップすると障害物を避けて移動します。水色の輪と矢印は選んだ行き先です。ドラッグ、WASD、矢印キーでも移動できます。設備の輪で止まると作業し、強化・雇用・拡張は1.3秒立ち止まると購入します。
+## How to play
 
-5章 × 各5段階。材料回収・加工・梱包・納品、補充、冷却、清掃、リサイクル、注文、塗装、コンベア、輸出があります。進行はこの端末のブラウザに保存されます。
+- Tap a machine or the floor and your character walks there, avoiding obstacles. You can also drag, or use WASD / arrow keys.
+- Carry goods **Material Yard → Processor → Packing Bench → Delivery**. Standing on a machine's ring collects, loads or picks up automatically.
+- Standing 1.3 seconds on the ring of the Gear Bench, Hiring Desk, Quality Lab or Expansion Gate buys an upgrade. Leave the ring before buying again.
+- Expanding needs both enough deliveries and enough cash. There are 5 chapters × 5 levels each.
+- Keep things running: restock materials, cool overheating machines, clean puddles, recycle scrap, chain deliveries, and fill regular and rush orders.
+- Chapter 2 adds a 2nd Processor, chapter 3 a Paint Booth, chapter 4 a parts conveyor, and chapter 5 an Export Truck.
 
-## 構成
+Progress is saved in your browser (localStorage). No purchases, no ads, no external libraries.
 
-- `index.html`: 画面・CSS・操作説明
-- `engine.js`: 移動・経済・進行・描画・保存
-- `SHIFT-game.html`: 配布用1HTML
-- `build.cjs`: 1HTMLを生成
-- `verify*.cjs`: 操作・経済・描画の検証
-- `balance.cjs`: 各章の生産と収益の検証
+## Project layout
 
-## 再生成・検証
+| File | Purpose |
+| --- | --- |
+| `index.html` | Page layout, CSS and help text |
+| `engine.js` | Movement, economy, progression, rendering and saving |
+| `build.cjs` | Inlines `engine.js` into a single `SHIFT-game.html` |
+| `verify*.cjs`, `balance.cjs` | Gameplay, layout, rendering and balance checks |
 
-Node.js 18以上。`node build.cjs` または `npm run build` で1HTMLを再生成できます。生成には依存パッケージのインストールは不要です。
+## Development
 
-検証は `npm install` の後、`npm test`。バランス検証は `npm run test:balance`。描画検証には開発用の `skia-canvas` を使い、画像を `artifacts/` に出力します。ゲーム本体は外部ライブラリを使いません。
+Requires Node.js 18+.
 
-Git履歴、認証情報、クラウド公開設定は含みません。
+```sh
+npm run build          # generate SHIFT-game.html (no dependencies needed)
+npm install            # only needed for the tests (skia-canvas)
+npm test               # gameplay, layout and tap-navigation checks
+npm run test:balance   # per-chapter production and revenue check
+```
+
+To work on the source, open `index.html` directly; it loads `engine.js` from the same folder.
+
+## Deployment
+
+A GitHub Actions workflow (`.github/workflows/pages.yml`) builds the single-file game on every push to `main` and publishes it to GitHub Pages.
