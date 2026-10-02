@@ -1,5 +1,5 @@
 'use strict';
-const RM=typeof matchMedia==='function'?matchMedia('(prefers-reduced-motion: reduce)'):{matches:false};const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false});
+const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false});
 const CHAPTERS=['Small Workshop','Town Packing Plant','Automated Factory','Giant Logistics Hub','Global Enterprise'];
 const SUBLEVELS=['Opening','Equipment Upgrades','Scaling Up','Efficiency','Mastery'];
 const SAVE_KEY='shift-walk-factory-v2';
@@ -44,7 +44,7 @@ for(const st of stations){st.x*=MAP_SCALE;st.z*=MAP_SCALE}
 let lastGrowth='',camReset=true,width=900,height=600,tile=24,camX=0,camY=0,drag=null,keys=new Set(),toastTimer,celebrateTimer,audioCtx,saveTimer=0,uiTimer=0,last=performance.now(),accumulator=0,rafId,helpWasPaused=false;
 function toast(text){$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2400)}
 function sound(type){if(!S.sound)return;try{audioCtx??=new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();const notes=type==='expand'?[523,659,784,1047]:type==='cash'?[783,1046]:[440,587];notes.forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=f;const t=audioCtx.currentTime+i*.07;g.gain.setValueAtTime(.045,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.start(t);o.stop(t+.16)})}catch{}}
-function burst(x,z,n=20,colors=['#ffda6b','#bafa66'],large=false){if(RM.matches)return;for(let i=0;i<n&&particles.length<400;i++)particles.push({x,z,h:.6,vx:(Math.random()-.5)*(large?7:3),vz:(Math.random()-.5)*(large?7:3),vh:3+Math.random()*6,life:large?2.8:1.5,age:0,color:colors[i%colors.length],size:large?.12:.075})}
+function burst(x,z,n=20,colors=['#ffda6b','#bafa66'],large=false){for(let i=0;i<n&&particles.length<400;i++)particles.push({x,z,h:.6,vx:(Math.random()-.5)*(large?7:3),vz:(Math.random()-.5)*(large?7:3),vh:3+Math.random()*6,life:large?2.8:1.5,age:0,color:colors[i%colors.length],size:large?.12:.075})}
 function earn(amount,x,z,label){amount=Math.max(0,Math.round(amount));S.money+=amount;S.total+=amount;cashFloats.push({x,z,text:label||'+'+fmt(amount),age:0});burst(x,z,18);sound('cash')}
 function createWorker(id){return {id,x:(7.5+Math.random()*.6)*MAP_SCALE,z:14.8*MAP_SCALE,cargo:null,count:0,premium:false,actionTime:0,zone:null,bought:null,paintTime:0,slow:0,moving:false,dir:1,target:null,wait:0,path:[],planAt:0}}
 function save(){try{const state={...S,paused:false,sound:false,procProgress:0,secondProgress:0,packProgress:0};localStorage.setItem(SAVE_KEY,JSON.stringify({version:2,layout:4,state,player:{x:player.x,z:player.z,cargo:player.cargo,count:player.count,premium:player.premium},actors:actors.slice(1).map(a=>({x:a.x,z:a.z,cargo:a.cargo,count:a.count,premium:a.premium}))}));$('save-status').textContent='Saved on this device · No purchases, no ads'}catch{$('save-status').textContent='Saving unavailable · progress resets when you close this page'}}
